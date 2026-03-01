@@ -1,18 +1,14 @@
 package com.example.spring_mvc_lab.model;
 
-
-
 public class Product {
     private Long id;
     private String name;
     private String category;
-    private double price;
-    private int stock;
+    private Double price;
+    private Integer stock; // 1. Tambahkan variabel stock
 
-    public Product() {
-    }
-
-    public Product(Long id, String name, String category, double price, int stock) {
+    // 2. Tambahkan stock ke dalam Constructor
+    public Product(Long id, String name, String category, Double price, Integer stock) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -20,45 +16,12 @@ public class Product {
         this.stock = stock;
     }
 
-    // Getter & Setter
+    // Getters
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getCategory() { return category; }
+    public Double getPrice() { return price; }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
+    // 3. Tambahkan Getter untuk stock
+    public Integer getStock() { return stock; }
 }

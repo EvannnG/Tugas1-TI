@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${appName} + ' - About'">About</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Navbar -->
+<div th:replace="~{layout :: navbar}"></div>
+
+<div class="max-w-xl mx-auto mt-10 bg-white rounded-lg shadow p-8">
+
+    <h1 class="text-3xl font-bold mb-6" th:text="${appName}">Spring MVC Lab</h1>
+
+    <table class="w-full text-sm mb-6">
+        <tr class="border-b">
+            <th class="text-left py-2 pr-4 text-gray-500 w-1/3">Versi</th>
+            <td class="py-2" th:text="${version}">1.0</td>
+        </tr>
+        <tr class="border-b">
+            <th class="text-left py-2 pr-4 text-gray-500">Author</th>
+            <td class="py-2" th:text="${author}">Mahasiswa</td>
+        </tr>
+    </table>
+
+    <h2 class="text-lg font-semibold mb-3">Teknologi yang Digunakan</h2>
+    <ul class="list-disc list-inside space-y-1 text-gray-700">
+        <li th:each="tech : ${technologies}" th:text="${tech}">Tech</li>
+    </ul>
+
+    <div class="mt-8">
+        <a th:href="@{/}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Kembali ke Home</a>
+    </div>
+
+</div>
+
+<div th:replace="~{layout :: footer}"></div>
+
+</body>
+</html>
+

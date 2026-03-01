@@ -1,7 +1,7 @@
 package com.example.spring_mvc_lab.controller;
 
 import com.example.spring_mvc_lab.model.Product;
-import com.example.springmvclab.service.ProductService;
+import com.example.spring_mvc_lab.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -18,24 +20,21 @@ public class ProductController {
 
     private final ProductService productService;
 
-    // Constructor Injection (Week 3 pattern)
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    // GET /products → tampilkan semua produk
     @GetMapping
-    public String listProducts(Model model) {  // ← Model object (Baki Pengantar)
-        List<Product> products = productService.findAll();  // ← dari Service (Model Layer/Dapur)
+    public String listProducts(Model model) {
+        List<Product> products = productService.findAll();
 
-        model.addAttribute("products", products);       // ← taruh Data Class di Baki
+        model.addAttribute("products", products);
         model.addAttribute("title", "Daftar Produk");
         model.addAttribute("totalProducts", products.size());
 
-        return "product/list";  // → templates/product/list.html
+        return "product/list";  //
     }
 
-    // GET /products/42 → tampilkan detail produk
     @GetMapping("/{id}")
     public String productDetail(@PathVariable Long id, Model model) {
         Optional<Product> product = productService.findById(id);
@@ -48,10 +47,9 @@ public class ProductController {
             model.addAttribute("title", "Produk Tidak Ditemukan");
         }
 
-        return "product/detail";  // → templates/product/detail.html
+        return "product/detail";
     }
 
-    // GET /products/category/Elektronik → filter by category
     @GetMapping("/category/{category}")
     public String productsByCategory(@PathVariable String category, Model model) {
         List<Product> products = productService.findByCategory(category);
@@ -61,10 +59,9 @@ public class ProductController {
         model.addAttribute("totalProducts", products.size());
         model.addAttribute("selectedCategory", category);
 
-        return "product/list";  // reuse template yang sama!
+        return "product/list";
     }
 
-    // GET /products/search?keyword=laptop → search produk
     @GetMapping("/search")
     public String searchProducts(@RequestParam(defaultValue = "") String keyword,
                                  Model model) {
@@ -77,6 +74,20 @@ public class ProductController {
         model.addAttribute("totalProducts", products.size());
         model.addAttribute("keyword", keyword);
 
-        return "product/list";  // reuse template yang sama!
+        return "product/list";
+    }
+
+    @GetMapping("/categories")
+    public String categorySummary(Model model) {
+        List<String> categories = productService.getAllCategories();
+
+        Map<String, Long> categoryCount = new LinkedHashMap<>();
+        for (String cat : categories) {
+            categoryCount.put(cat, productService.countByCategory(cat));
+        }
+
+        model.addAttribute("categoryCount", categoryCount);
+        model.addAttribute("title", "Ringkasan Kategori");
+        return "product/categories";
     }
 }
